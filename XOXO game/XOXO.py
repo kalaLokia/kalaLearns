@@ -3,11 +3,8 @@ from IPython.display import clear_output
 from random import randint
 
 
-
 # Initializers for global variables
 board_elements = [' ',' ',' ',' ',' ',' ',' ',' ',' ']
-position = []
-
 
 def firstUser():
     '''
@@ -21,16 +18,6 @@ def firstUser():
         print("That was a invalid entry, we choose 'X' for you.")
         return 'X'
 
-def secondUser():
-    '''
-    Function that choose second user letter based on first user
-    Returns either X or O
-    '''
-    if(user1=='X'):
-       return 'O'
-    elif(user1=='O'):
-        return 'X' 
-
 def board(elements):
     '''
     Function to display the board view of the game.
@@ -42,13 +29,6 @@ def board(elements):
     print('------------------------')
     print(f'   {elements[0]}   |   {elements[1]}   |   {elements[2]}   ')
     print('------------------------')
-
-
-def firstPerson():
-    '''
-    Function to choose a random user start
-    '''
-    return randint(0,100) % 2 == 0
 
 def checkWinner():
     '''
@@ -74,26 +54,59 @@ def checkWinner():
     else:
         return 0
 
+def userInput(user, msg = 'Choose your position'):
+    '''
+    To get a valid input from users
+    '''
+    value = 0
+    valid = False
+    while(not valid):
+        try:
+            value = int(input(f'{user} {msg}: '))-1
+            if(value > 9): 
+                value = int('Show error')
+        except ValueError:
+            print('Please enter a valid number in between [1 - 9]')
+            continue
+        
+        valid = True
+    return value
+
 def startGame():
     '''
     Function to begin the game
     '''
-    global position
+    position = []
+
+    user1 = firstUser()
+    user2 = 'O' if(user1 == 'X') else 'X'
+
+    print(f'User 1 : {user1}\nUser 2 : {user2}')
+
+
+    print('Board Display:')
+    board([1,2,3,4,5,6,7,8,9])
+
+    if(randint(0,100) % 2 == 0):
+        order = ['X','O','X','O','X','O','X','O','X']
+        print('X has the first move')
+    else:
+        order = ['O','X','O','X','O','X','O','X','O']
+        print('O has the first move')
+
+    # Game begins in here
     for move in range(1,10):
         value = order.pop()
-        try:
-            entry = int(input(f'{value} choose your postion: '))-1
-        except ValueError:
-            print('Not a number')
+        entry = userInput(value)
+        
+        while entry in position:
+            entry = userInput(value, 'Choose a postion that is not entered: ')
+        
         if(entry == -1):
             print(f'{value} has left the game')
             position = []
             break
-        while entry in position:
-            try:
-                entry = int(input(f'{value} choose a postion that is not entered: '))-1
-            except ValueError:
-                print('Not a number')
+                
         position.append(entry)
         board_elements[entry] = value
         clear_output()
@@ -108,21 +121,9 @@ def startGame():
     position = []
     print('End of game')
 
-     
-user1 = firstUser()
-user2 = secondUser()
-
-print(f'User 1 : {user1}\nUser 2 : {user2}')
-
-
-print('Board Display:')
-board([1,2,3,4,5,6,7,8,9])
-
-if(firstPerson()):
-    order = ['X','O','X','O','X','O','X','O','X']
-    print('X has the first move')
-else:
-    order = ['O','X','O','X','O','X','O','X','O']
-    print('O has the first move')
-
-startGame()
+ready = True
+while(ready):
+    startGame()
+    if(input('Do you want to play again (Y/n): ').lower != 'y'):
+        ready = False
+        print('Game End!')
