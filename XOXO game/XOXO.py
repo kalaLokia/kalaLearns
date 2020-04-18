@@ -6,17 +6,15 @@ from random import randint
 # Initializers for global variables
 board_elements = [' ',' ',' ',' ',' ',' ',' ',' ',' ']
 
-def firstUser():
+def playerMarker():
     '''
-    Function to ask the user to choose either X or O
-    Returns either X or O
+    Function to ask the player 1 to choose either X or O
+    Returns a tuple with player 1, player2 marker
     '''
-    value = input('Choose who are you, X or O : ').upper()
-    if(value in ['X','O']):
-        return value
-    else:
-        print("That was a invalid entry, we choose 'X' for you.")
-        return 'X'
+    value = '' 
+    while(value not in ['X','O']):
+        value = input('Player 1, choose either X or O : ').upper()
+    return ('X','O') if(value == 'X') else ('O','X')
 
 def board(elements):
     '''
@@ -77,15 +75,11 @@ def startGame():
     Function to begin the game
     '''
     position = []
-
-    user1 = firstUser()
-    user2 = 'O' if(user1 == 'X') else 'X'
-
-    print(f'User 1 : {user1}\nUser 2 : {user2}')
-
+    user1, user2 = playerMarker()
 
     print('Board Display:')
     board([1,2,3,4,5,6,7,8,9])
+    print(f'Player 1 marker: {user1}\yPlayer 2 marker: {user2}')
 
     if(randint(0,100) % 2 == 0):
         order = ['X','O','X','O','X','O','X','O','X']
