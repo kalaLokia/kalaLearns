@@ -7,6 +7,7 @@ play = False
 playershand = []
 dealershand = []
 action = ''
+blackjack = False
 
 
 def showCards(items, name):
@@ -14,8 +15,7 @@ def showCards(items, name):
     Shows {name}'s cards and hand value
     '''
     print(f"{name}'s hand: '")
-    for e in items:
-        print(f'\t{e}')
+    print(f"\t{items.join(' - ')}")
     print(f"Hand value: {cards.handValue(items)}")
 
 
@@ -34,14 +34,16 @@ def dealersMove():
     Dealer perform hit until he gets bust, wins or his hand value becomes >= 17
     When hand value is >17 and players has greater value, dealer loses ;-)
     '''
+    global blackjack
 
     if(cards.handValue(dealershand) == 21):
         print('Dealer got a BLACKJACK')
         print('Dealer WINS')
         return
-    elif(cards.handValue(playershand) == 21):
+    elif(blackjack):
         print(f'{player.name} got a BLACKJACK')
         print(f'{player.name} WINS')
+        blackjack=False
         return
 
     while(not bust(dealershand)):
@@ -51,23 +53,26 @@ def dealersMove():
             showCards(dealershand, 'Dealer')
             break
         elif(cards.handValue(dealershand) == cards.handValue(playershand)):
-            print("It's a TIE, so dealer wins")
+            print("It's a TIE!!\n Dealer WINS")
             break
         elif(cards.handValue(dealershand) > 17):
-            print('Dealer loses')
+            print(f'Dealer loses\n{player.name} has WON.')
             print(f'{cards.handValue(playershand)} > {cards.handValue(dealershand)}')
             break
 
         dealershand.append(cards.hit())
     else:
-        print(f'Dealer busts! {player.name} has won the game.')
+        print(f'Dealer busts! \n{player.name} has WON the game.')
 
 
-def actions():
+def start():
     '''
     The actiona that can be performed
     '''
-    if(cards.handValue == 21):
+    global blackjack
+
+    if(cards.handValue(playershand) == 21): 
+        blackjack = True
         dealersMove()
         return
     while(not bust(playershand)):
@@ -89,23 +94,26 @@ def actions():
 if __name__ == "__main__":
 
     print(f'Hello {player.name}, Welcome to BlackJack Game')
+    # Tell game rules here, may be
     response = input('Do you want to start the game (Y/n)? ').lower()
     if(response != 'y'):
-        print(response)
         play = False
-        print('You have been exited game')
+        print('You have been exited the game')
     else:
         play = True
     # Ask for bet amount later
     while(play):
+        cards = DeckOfCards()
         cards.shuffle()
         print('Cards on the table is now shuffled')
         playershand = list(cards.initiate())
         dealershand = list(cards.initiate())
         print(
-            f"{player.name}'s hand:\n   {playershand[0]} - {playershand[1]}\n")
+            f"{player.name}'s hand:\n   {playershand[0]} - {playershand[1]}\nHand value: {cards.handValue(playershand)}\n")
         print(f"Dealer's hand:\n   {dealershand[0]} - ?\n")
 
-        actions()
-        print('The End')
-        play = False
+        start()
+        
+        if(input('Do you want to play again (Y/n)?').lower() != 'y'):
+            print('The End')
+            play = False

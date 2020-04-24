@@ -89,7 +89,7 @@ def startGame():
         print('O has the first move')
 
     # Game begins in here
-    for move in range(1,10):
+    for _ in range(1,10):
         value = order.pop()
         entry = userInput(value)
         
