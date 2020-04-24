@@ -79,7 +79,7 @@ def startGame():
 
     print('Board Display:')
     board([1,2,3,4,5,6,7,8,9])
-    print(f'Player 1 marker: {user1}\yPlayer 2 marker: {user2}')
+    print(f'Player 1 marker: {user1}\nPlayer 2 marker: {user2}')
 
     if(randint(0,100) % 2 == 0):
         order = ['X','O','X','O','X','O','X','O','X']
