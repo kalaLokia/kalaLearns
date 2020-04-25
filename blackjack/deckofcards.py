@@ -31,7 +31,10 @@ class DeckOfCards():
             if(hand[0]=='A'):
                 result = result - 10
             # Somehow this hand.pop is poping out from main value itself. Why ???
-            hand.pop(0)  
+            hand.pop(0)
+            
+            if(not hand): #return True if list is empty, alternative to hand == [] check
+                break  
 
         return result
 
