@@ -14,8 +14,8 @@ def showCards(items, name):
     '''
     Shows {name}'s cards and hand value
     '''
-    print(f"{name}'s hand: '")
-    print(f"\t{items.join(' - ')}")
+    print(f"{name}'s hand: ")
+    print(f"\t{' - '.join(items)}")
     print(f"Hand value: {cards.handValue(items)}")
 
 
@@ -49,7 +49,7 @@ def dealersMove():
     while(not bust(dealershand)):
 
         if(cards.handValue(dealershand) > cards.handValue(playershand)):
-            print('Dealer wins')
+            print('Dealer WINS')
             showCards(dealershand, 'Dealer')
             break
         elif(cards.handValue(dealershand) == cards.handValue(playershand)):
@@ -81,7 +81,9 @@ def start():
             f"{player.name}'s turn: Do you want to hit or stand ? ").lower()
         if(action == 'hit'):
             playershand.append(cards.hit())
+            print(f'Test Print 1 PH: {playershand} ')
             showCards(playershand, player.name)
+            print(f'Test Print 2 PH: {playershand} ')
         elif(action == 'stand'):
             dealersMove()
             break
