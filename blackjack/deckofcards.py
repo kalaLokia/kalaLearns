@@ -30,7 +30,8 @@ class DeckOfCards():
         while('A' in hand and result > 21):
             if(hand[0]=='A'):
                 result = result - 10
-            hand.pop(0)
+            # Somehow this hand.pop is poping out from main value itself. Why ???
+            hand.pop(0)  
 
         return result
 

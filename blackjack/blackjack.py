@@ -81,9 +81,7 @@ def start():
             f"{player.name}'s turn: Do you want to hit or stand ? ").lower()
         if(action == 'hit'):
             playershand.append(cards.hit())
-            print(f'Test Print 1 PH: {playershand} ')
             showCards(playershand, player.name)
-            print(f'Test Print 2 PH: {playershand} ')
         elif(action == 'stand'):
             dealersMove()
             break
