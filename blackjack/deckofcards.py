@@ -23,16 +23,14 @@ class DeckOfCards():
         Calculates and returns the hand value, expecting a string value to be feeded.
         '''
         result = 0
-        value = hand.copy()
 
         for element in hand:
             result = result + self.cards[element]
        
-        while('A' in value and result > 21):
-            if(value[0]=='A'):
-                result = result - 10
-            value.pop(0)
-
+        for _ in range(hand.count('A')):
+            if result > 21:
+                result -= 10
+                
         return result
 
     def hit(self):
