@@ -23,18 +23,15 @@ class DeckOfCards():
         Calculates and returns the hand value, expecting a string value to be feeded.
         '''
         result = 0
+        value = hand.copy()
 
         for element in hand:
             result = result + self.cards[element]
        
-        while('A' in hand and result > 21):
-            if(hand[0]=='A'):
+        while('A' in value and result > 21):
+            if(value[0]=='A'):
                 result = result - 10
-            # Somehow this hand.pop is poping out from main value itself. Why ???
-            hand.pop(0)
-            
-            if(not hand): #return True if list is empty, alternative to hand == [] check
-                break  
+            value.pop(0)
 
         return result
 
