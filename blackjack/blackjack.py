@@ -1,13 +1,17 @@
+import sys
+
 from deckofcards import DeckOfCards
 from account import Account
 
 player = Account('kalaLokia')
 cards = DeckOfCards()
-play = False
+play = True
 playershand = []
 dealershand = []
 action = ''
 blackjack = False
+easy = True
+bet = 0
 
 
 def showCards(items, name):
@@ -43,6 +47,7 @@ def dealersMove():
     elif(blackjack):
         print(f'{player.name} got a BLACKJACK')
         print(f'{player.name} WINS')
+        if(not easy): player.deposit(bet * 2)
         blackjack=False
         return
 
@@ -58,11 +63,13 @@ def dealersMove():
         elif(cards.handValue(dealershand) > 17):
             print(f'Dealer loses\n{player.name} has WON.')
             print(f'{cards.handValue(playershand)} > {cards.handValue(dealershand)}')
+            if(not easy): player.deposit(bet * 1.5)
             break
 
         dealershand.append(cards.hit())
     else:
         print(f'Dealer busts! \n{player.name} has WON the game.')
+        if(not easy): player.deposit(bet * 1.5)
 
 
 def start():
@@ -95,14 +102,30 @@ if __name__ == "__main__":
 
     print(f'Hello {player.name}, Welcome to BlackJack Game')
     # Tell game rules here, may be
-    response = input('Do you want to start the game (Y/n)? ').lower()
-    if(response != 'y'):
-        play = False
-        print('You have been exited the game')
-    else:
-        play = True
+    response = input('Please choose a mode, hard or normal (H/n)? ').lower()
+    if(response == 'h'):
+        easy = False
+        print('You have choosed HARD mode, please try to maintain the balance')
+        print(f'Your account has been generated with initial balance {player.bal} chips')
+    
     # Ask for bet amount later
+
     while(play):
+
+        while(not easy and bet==0):
+
+            if(player.bal == 0):
+                print('You have been kicked out of club, because you have lost all of your chips.')
+                sys.exit()   
+
+            try:
+                bet = int(input('Please enter a bet amount : '))
+                if(not player.withdraw(bet)):
+                    bet = 0
+            except ValueError:
+                print('Not valid number')
+
+
         cards = DeckOfCards()
         cards.shuffle()
         print('Cards on the table is now shuffled')
@@ -113,7 +136,7 @@ if __name__ == "__main__":
         print(f"Dealer's hand:\n   {dealershand[0]} - ?\n")
 
         start()
-        
+        bet = 0
         if(input('Do you want to play again (Y/n)?').lower() != 'y'):
             print('The End')
             play = False
