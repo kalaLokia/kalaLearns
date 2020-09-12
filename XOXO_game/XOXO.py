@@ -33,21 +33,21 @@ def checkWinner():
     Function to check for a winner
     Winning sequences : 123,456,789,147,258,369,159,753
     '''
-    if(len(set(board_elements[0:3]))==1):
+    if(board_elements[0] != ' ' and len(set(board_elements[0:3]))==1):
         return board_elements[0]
-    elif(len(set(board_elements[3:6]))==1):
+    elif(board_elements[3] != ' ' and len(set(board_elements[3:6]))==1):
         return board_elements[3]
-    elif(len(set(board_elements[6:9]))==1):
+    elif(board_elements[6] != ' ' and len(set(board_elements[6:9]))==1):
         return board_elements[6]
-    elif(len(set(board_elements[0::3]))==1):
+    elif(board_elements[0] != ' ' and len(set(board_elements[0::3]))==1):
         return board_elements[0]
-    elif(len(set(board_elements[1::3]))==1):
+    elif(board_elements[1] != ' ' and len(set(board_elements[1::3]))==1):
         return board_elements[1]
-    elif(len(set(board_elements[2::3]))==1):
+    elif(board_elements[2] != ' ' and len(set(board_elements[2::3]))==1):
         return board_elements[2]
-    elif(len(set(board_elements[2::2]))==1):
+    elif(board_elements[2] != ' ' and len(set(board_elements[2::2]))==1):
         return board_elements[2]
-    elif(len(set(board_elements[0:4]))==1):
+    elif(board_elements[0] != ' ' and len(set(board_elements[0:4]))==1):
         return board_elements[0]
     else:
         return 0
