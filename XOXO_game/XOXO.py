@@ -45,9 +45,9 @@ def checkWinner():
         return board_elements[1]
     elif(board_elements[2] != ' ' and len(set(board_elements[2::3]))==1):
         return board_elements[2]
-    elif(board_elements[2] != ' ' and len(set(board_elements[2::2]))==1):
+    elif(board_elements[2] != ' ' and len(set(board_elements[2:8:2]))==1):
         return board_elements[2]
-    elif(board_elements[0] != ' ' and len(set(board_elements[0:4]))==1):
+    elif(board_elements[0] != ' ' and len(set(board_elements[0::4]))==1):
         return board_elements[0]
     else:
         return 0
@@ -118,6 +118,7 @@ def startGame():
 ready = True
 while(ready):
     startGame()
+    board_elements = [' '] * 9
     if(input('Do you want to play again (Y/n): ').lower != 'y'):
         ready = False
         print('Game End!')
